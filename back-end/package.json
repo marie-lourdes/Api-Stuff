@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/marie-lourdes/Api-Stuff/issues"
   },
-  "homepage": "https://github.com/marie-lourdes/Api-Stuff#readme"
+  "homepage": "https://github.com/marie-lourdes/Api-Stuff#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
 }

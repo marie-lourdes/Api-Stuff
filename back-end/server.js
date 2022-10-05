@@ -7,4 +7,4 @@ const server= http.createServer((req,res)=>{// methode "createserver"de l objet 
 
 // PORT variable d environnement  avec la valeur du port  par defaut selon le systeme d exploitation de l appareil
 // soit le serveur ecoute sur le port par defaut de l appareil ou sur le port 3000
-server.listen(process.env.PORT || 3000) 
+server.listen(process.env.PORT || 3000); 
