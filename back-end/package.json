@@ -1,0 +1,19 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "back end de l'api stuff",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marie-lourdes/Api-Stuff.git"
+  },
+  "author": "Marie-Lourdes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marie-lourdes/Api-Stuff/issues"
+  },
+  "homepage": "https://github.com/marie-lourdes/Api-Stuff#readme"
+}
