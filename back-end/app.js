@@ -18,7 +18,7 @@ app.use((req, res, next) => {
   // apres cette configuration l acces au donnes de stuff sur l endpoints api/stuff sera accessible depuis different serveur ou origine pour le verbe GET http
   // la methode post() ajoute la route et le middleware qui traitera la requete poste et l objet response de la requete post
   app.post('/api/stuff', (req, res, next) => {
-    console.log(req.body);// capture du contenu de la requete post dans la console
+    console.log( "objet crée",req.body);// capture du contenu de la requete post dans la console
     res.status(201).json({// pour que la requete post aboutisse,on envoit la reponse et modifier le code de succes en 201 qui corresponde à une demande de post reussi
       message: 'Objet créé !'
     });
