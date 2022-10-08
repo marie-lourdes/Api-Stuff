@@ -1,6 +1,12 @@
 const express = require("express");
+const mongoose= require("mongoose");
 
 const app= express();
+mongoose.connect('mongodb+srv://marie-lourdes:1234@cluster0.bq9wlht.mongodb.net/?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
 // ajout d un middleware integrée a express qui va recuperer toutes les requêtes entrante (objet request) dont le body est en content-type: application json
 // ce middleware ne doit etre placer dans le tunnel gestionnaire des middleware avec le chainage de next(), 
 // ce middleware traite l'objet request des requete entrante en json 

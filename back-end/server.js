@@ -17,8 +17,10 @@ app.set('port', port);
 
 const errorHandler = error => {
   if (error.syscall !== 'listen') {// les erreurs de sytems ont des nom, systemcall renvoit une chaine de caractere avec le nom de l erreur de l appel du system
+   
     throw error; //stoppe le programme et fournit la valeur de l exception  stocker ds "error" 
   }
+ 
   const address = server.address();
   /*  Lorsqu'une socket est créée avec socket(point de terminaison) , elle existe sous un nom
        espace (famille d'adresses) mais n'a pas d'adresse qui lui soit assignée.  bind ()
@@ -56,6 +58,7 @@ const server = http.createServer(app);
 server.on('error', errorHandler); //0n() est un ecouteeur d evenemnt, ici l ecouteur d evenment ecoute les evenement erreur qui se produit sur le server)
 server.on('listening', () => { // ecoute les evenement nomme listening qui se produit sur server
   const address = server.address();
+  console.log(address);
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
   console.log('Listening on ' + bind);
 });
