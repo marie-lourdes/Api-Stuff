@@ -25,21 +25,22 @@ app.use((req, res, next) => {
   // apres cette configuration l acces au donnes de stuff sur l endpoints api/stuff sera accessible depuis different serveur ou origine pour le verbe GET http
   // la methode post() ajoute la route et le middleware qui traitera la requete poste et l objet response de la requete post
   app.post('/api/stuff', (req, res, next) => {
-    app.post('/api/stuff', (req, res, next) => {
-      delete req.body._id;// on efface au preable l id generé par le front-end car la base de données mongo genere deja l id
-      const thing = new Thing({// on crée une instance  du model Thing stocké dans la variable thing
-        ...req.body// "spread ... " operateur js qui copie et colle tous les elements  du body de la requete post utilisateur dans l'instance du model thing
-      });
-      // on enregistre le thing dans la base de données  avec la methode save() de mongoose
-      thing.save()
-        .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-        // save() envoie un promesse, sur ce resultat de la promesse denregistrement de l 'objet  avec then():
-        //on envoie la reponse avec le status 201 et le msg en json
-        //on recupere l erreur et on envoie le status erreur 400 avec la reponse de la requete et le message d erreur de catch
-        .catch(error => res.status(400).json({ error })); // est le raccourci de.json( error:error):error module separé  de l objet error
+    delete req.body._id;// on efface au preable l id generé par le front-end car la base de données mongo genere deja l id
+    const thing = new Thing({// on crée une instance  du model Thing stocké dans la variable thing
+      ...req.body
+      // "spread ... " operateur js qui copie et colle tous les elements  du body de la requete post utilisateur dans l'instance du model thing
+    // au lieu de title: req.body.title;
+    //description: req.body.description
     });
+    // on enregistre le thing dans la base de données  avec la methode save() de mongoose
+    thing.save()
+      .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
+      // save() envoie un promesse, sur ce resultat de la promesse denregistrement de l 'objet  avec then():
+      //on envoie la reponse avec le status 201 et le msg en json
+      //on recupere l erreur et on envoie le status erreur 400 avec la reponse de la requete et le message d erreur de catch en objet json
+      .catch(error => res.status(400).json({ error })); // est le raccourci de.json( {error:error}):error module separé  de l objet error
   });
-
+    
 // la methode  get()  ajoute le middleware au niveau de l application  et ajoute la route sur toute les requete avec le verbe HTTP GET
 // le middleware ajouté a la methode get traitera les requete http GET, ici traite l objet response
 app.get('/api/stuff', (req, res) => {
