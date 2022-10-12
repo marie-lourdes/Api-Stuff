@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router(); 
-const Thing = require("./models/thing"); 
+const Thing = require("../models/thing"); 
 // import du module thing.js contenant la valeur actuelle du model avec  la valeur de thingshema 
 
 //..................CREATION DES ROUTES INDIVIDUELLES AVEC L OBJET ROUTER:qui se rajouteront à la route de base "/api/stuff" dans app.js.........................
@@ -55,7 +55,7 @@ router.delete('/:id', (req, res, next) => {
   });
 
   //...................................... recuperation d un thing par son id.....................................
-  router.get('/api/stuff/:id', (req, res, next) => {
+  router.get('/:id', (req, res, next) => {
     Thing.findOne({_id:req.params.id})// recupere  le parametre id de l url du site dans l _id du thing de la base de données pour recupere le produit avec la condition suivante: produit correspondant l id parametre url et à _id du produit de la base de donnée
       .then(thing => res.status(200).json(thing)) // execute un instruction sur la promesse retourné par findOne(), envoit la reponse sous forme de promesse avec le produit et l identifiant correspondant que findOne a trouvé
       .catch(error => res.status(404).json({ error }));
