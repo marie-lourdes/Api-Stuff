@@ -1,6 +1,7 @@
 const express = require("express");
+const { model } = require("mongoose");
 const router = express.Router(); 
-const Thing = require("../models/thing"); 
+
 // import du module thing.js contenant la valeur actuelle du model avec  la valeur de thingshema 
 
 //..................CREATION DES ROUTES INDIVIDUELLES AVEC L OBJET ROUTER:qui se rajouteront à la route de base "/api/stuff" dans app.js.........................
@@ -15,9 +16,18 @@ const Thing = require("../models/thing");
       // "spread ... " operateur js qui copie et colle tous les elements  du body de la requete post utilisateur dans l'instance du model thing
     // au lieu de title: req.body.title;
     //description: req.body.description
+
+    //ou sans l'operateur spread:
+    /*    title: req.body.title,
+    description: req.body.description,
+    imageUrl: req.body.imageUrl,
+    price: req.body.price,
+    userId: req.body.userId*/
    
     });
-    // on enregistre le thing dans la base de données  avec la methode save() de mongoose
+
+    // on enregistre l'instance de modele thing dans la base de données, une premier fois, transformé par mongoDB avec le nom de model au pluriel et minuscule pour le nom de la collection de mongodb si elle n existe pas deja
+    //et on enregistre le shema structuré qui est copié par la methode model()a chaque appel de celle -ci,qui est inseré dans le model nommé "Thing" avec les données  avec la methode save() de mongoose
     thing.save()
       .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
       // save() envoie un promesse, sur ce resultat de la promesse denregistrement de l 'objet  avec then():

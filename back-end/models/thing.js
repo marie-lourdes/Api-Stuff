@@ -13,4 +13,5 @@ const thingSchema = mongoose.Schema({
 });
 
 // On crée un model qu on exporte avec la valeur de l objet shema
-module.exports = mongoose.model('Thing', thingSchema);
+module.exports = mongoose.model('Thing', thingSchema);// model()  est constructor et fais la copie de la structure de thingshema avec les donnéés inséeres a chaque fois qu il est appelé par le mot clé new sans recréer la collection 
+// le nom du model est transformé par mongodb en miniuscule et au pluriel à la creation de la collection si elle n existe pas 
