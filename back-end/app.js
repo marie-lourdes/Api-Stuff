@@ -28,7 +28,7 @@ app.use((req, res, next) => {
   // apres cette configuration l acces au donnes de stuff sur l endpoints api/stuff sera accessible depuis different serveur ou origine pour le verbe GET http
 
 // ajout de l objet router (avec ses routes individuelles et requetes http traites par leur middleware respectif)
-//chaque route individuelle de l objet router s ajoute à la route de base qui est ajouté par la fonction use acceptant toutes les requetes http dans l objet router
+//chaque route individuelle de l objet router "routerstuff" s ajoute à la route de base qui est ajouté par la fonction use acceptant toutes les requetes http dans l objet router
 app.use("/api/stuff", routerStuff);
 
 /* module.exports exporte et rend accessible  la valeur actuelle de l'objet exports(du module app.js) 
