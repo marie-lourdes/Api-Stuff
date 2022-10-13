@@ -6,7 +6,7 @@ const User= require("../models/Users");
 exports.signup = (req, res, next) => {
     //on demande a l 'algorithme de bcrypt de hasher et anlyser 10 fois le mot de passe
     bcrypt.hash(req.body.password, 10)// on crypte le mot de passe que l utilisateur entre lors de la requete post via le formulaire d inscription
-    .then(hash => { // on recupere le resultat de la promesse envoyer par la methode hash() et on l enregistre dans l instance de model User
+    .then(hash => { // on recupere le resultat de la promesse envoyé par la methode hash(): le mode de passe hashé et on l enregistre dans l instance de model User
       const user = new User({
         // les données email et password de la "const user" sont stocké dans le model 
         //qui copie la structure de usershema et les données inseré lors de l enregistrement ds la base de données
@@ -16,9 +16,9 @@ exports.signup = (req, res, next) => {
       });
       user.save()// a l enregistrement du model la premiere fois, le nom du model User sera transformé par mongodb au pluriel et miniuscule"users"
         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-        .catch(error => res.status(400).json({ error }));//status 400 erreur de requte 
+        .catch(error => res.status(400).json({ error }));//status 400 erreur de requête POST de l utilisateur
     })
-    .catch(error => res.status(500).json({ error }));// status 500 erreur serveur api pour le crytage du mot de passe 
+    .catch(error => res.status(500).json({ error }));// status 500 erreur serveur api pour le cryptage du mot de passe 
 
 };
 
