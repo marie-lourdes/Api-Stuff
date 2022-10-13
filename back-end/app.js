@@ -1,7 +1,9 @@
 const express = require("express");
 const mongoose= require("mongoose");
-// import des routes pour les stuff articles et les middles wares qui traites les requetes de ses routes individuels
+// import des routes individuelles de l objet router (du module routes stuff.js) pour les stuff articles et les fonctions semantiques du controllers stuff.js (les middleswares qui traites les requetes de ses routes individuels)
 const routerStuff = require("./routes/stuff");
+// import des routes individuelles de l objet router(du module routes Users.js)  pour les donnees email et de passe utilisateur et  les fonctions semantiques du controllers Users.js (les middleswares qui traites les requetes de ses routes individuels)
+const routerUsers = require('./routes/Users');
 
 const app= express();
 //...........................connexion base de données mongodb avec module mongoose..................................
@@ -25,11 +27,14 @@ app.use((req, res, next) => {
     next();
   });
 
-  // apres cette configuration l acces au donnes de stuff sur l endpoints api/stuff sera accessible depuis different serveur ou origine pour le verbe GET http
+  // apres cette configuration l acces au donnes de stuff sur l endpoints api/stuff, api/auth seront accessible depuis different serveur ou origine pour le verbe GET http
 
-// ajout de l objet router (avec ses routes individuelles et requetes http traites par leur middleware respectif)
-//chaque route individuelle de l objet router "routerstuff" s ajoute à la route de base qui est ajouté par la fonction use acceptant toutes les requetes http dans l objet router
+// ajout de l objet router (avec ses routes individuelles et requetes http traites par leur middleware respectif: fonction semantique controllers)
+//chaque route individuelle de l objet router "routerstuff" s ajoutent à la route de base "/api/stuff", cette route de base est ajouté par la fonction use au niveau de l application, acceptant toutes les requetes http dans l objet router
 app.use("/api/stuff", routerStuff);
+// ajout de l objet router (avec ses routes individuelles et requetes http traites par leur middleware respectif: fonction semantique controllers)
+//chaque route individuelle de l objet router "routerUsers" s ajoutent à la route de base d'authentification "/api/auth" ,cette route de base est ajouté au niveau de l application  par la fonction use,  acceptant toutes les requetes http dans l objet router
+app.use("/api/auth", routerUsers);
 
 /* module.exports exporte et rend accessible  la valeur actuelle de l'objet exports(du module app.js) 
 qui sont les fonctions et methodes de l'application express contenu  dans la variable  const app */
