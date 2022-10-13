@@ -25,7 +25,7 @@ exports.signup = (req, res, next) => {
 
 //............... fonction controllers login pour la verification de connexion  utilisateur (identifiants email et mode passe).....................
 exports.login = (req, res, next) => {
-    User.findOne({ email: req.body.email })
+   User.findOne({ email: req.body.email })
     .then(user => { //then recupere et verifie le resultat de la promesse renvyé par la methode findOne()
         if (!user) { //si l email à retrouver n existe pas ,   n est pas retrouvé dans la base de données, absente, donc false !user dans le resultat de  la promesse de findOne 
             return res.status(401).json({ message: 'Paire login/mot de passe incorrecte'});// le then envoit une reponse indiquant l erreur 401 acces non autorisé
