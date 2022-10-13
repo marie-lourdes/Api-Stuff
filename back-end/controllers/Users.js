@@ -33,7 +33,7 @@ exports.login = (req, res, next) => {
 // la methode compare() verifie dans le resulat " user" recuperé par then:
 // ( utilisateur trouvé dans la base de donné via la requete de comparaison de l email de findOne() ) la correspondance du mot de passe de l utilisateu trouvé dans la base de donnée 
 // avec le mot de passe entrée dans le formulaire de connexion via la requete POST de l utilisateur
-        bcrypt.compare(req.body.password, user.password)//renvoit une valeur booléenne
+        bcrypt.compare(req.body.password, user.password)// compare() renvoit une valeur booléenne
             .then(valid => {
                 if (!valid) {
                     return res.status(401).json({ message: 'Paire login/mot de passe incorrecte' }); //si l email existe mais le mot de passe incorrecte, erreur 401 acces non autorise
