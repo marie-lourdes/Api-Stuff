@@ -1,5 +1,9 @@
 // import du module bcrypt pour la fonction de creation de compte signup pour securiser le code enregistré dans la base de données
 const bcrypt= require("bcrypt");
+
+//import du package pour generer et encoder le token d authentification
+const jwt= require("jsonwebtoken")
+
 //import du model User qui sera enregistré dans la base de données avec les fonctions signup et login
 const User= require("../models/Users");
 
@@ -40,7 +44,11 @@ exports.login = (req, res, next) => {
                 }
                 res.status(200).json({
                     userId: user._id,
-                    token: 'TOKEN'
+                    token: jwt.sign( //chiffre un nouveau token
+                        { userId: user._id }, // charge utile/paylode:donnée à encoder avec la chaine secrete avec l id utilisateur pour etre sur que le token de la requete corresponde a l utilisateur
+                        'RANDOM_TOKEN_SECRET', // cette chaine servira pour le chiffrement et le dechiffrement du token lors de la verification du token dans les requetes signé de l utilisateur
+                        { expiresIn: '24h' }// option/objet de configuration du token en option valable 24h
+                    )
                 });
             })
             .catch(error => res.status(500).json({ error }));
