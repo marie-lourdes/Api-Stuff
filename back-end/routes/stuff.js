@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router(); 
+const auth= require("../middleware/auth");
 const stuffctrler= require("../controllers/stuff")
 
 // import du module thing.js contenant la valeur actuelle du model avec  la valeur de thingshema 
@@ -10,19 +11,19 @@ const stuffctrler= require("../controllers/stuff")
 
   //.......................................... creation d un objet/ajout d un produit...............................
   // ajout de la fonction semantique (logique metier de router dans le controller stuff.js) du controller stuff.js à la logique routing router.post("/")
-  router.post( '/',stuffctrler.createThing );
+  router.post( '/',auth,stuffctrler.createThing );
 
  //...................................modification d'un produit avec son id......................................
  // ajout de la fonction semantique (logique metier de router dans le controller stuff.js) du controller stuff.js à la logique routing router.put("/:id")
- router.put( '/:id', stuffctrler.modifyThing );
+ router.put( '/:id',auth, stuffctrler.modifyThing );
 
 //......................................suppression d'un produit......................................................
 // ajout de la fonction semantique (logique metier de router dans le controller stuff.js) du controller stuff.js à la logique routing router.delete("/:id")
-router.delete( '/:id',stuffctrler.deleteThing );
+router.delete( '/:id',auth,stuffctrler.deleteThing );
 
 //...................................... recuperation d un thing par son id.....................................
 // ajout de la fonction semantique (logique metier de router dans le controller stuff.js) du controller stuff.js à la logique routing router.get("/:id")
-  router.get( '/:id',stuffctrler.getOneThing );
+  router.get( '/:id',auth,stuffctrler.getOneThing );
 
 //...............................récuperation de la liste de things dans le modele Thing................................
 
@@ -30,7 +31,7 @@ router.delete( '/:id',stuffctrler.deleteThing );
 // le middleware ajouté a la methode get traitera les requete http GET, ici traite l objet response
 // ajout de la fonction semantique (logique metier de router dans le controller stuff.js) du controller stuff.js à la logique routing router.get
 
-router.get('/',stuffctrler.getAllThing);
+router.get('/',auth,stuffctrler.getAllThing);
 
 
 module.exports= router;

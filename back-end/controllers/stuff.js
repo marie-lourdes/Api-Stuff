@@ -58,6 +58,7 @@ exports.createThing = (req, res, next) => {
     Thing.find()// recupere tous les elements du modele Thing
       .then(things => res.status(200).json(things)) // then evite les call back a l interieur de la fonction find, execute un instruction sur la promesse retourné par find()
       .catch(error => res.status(400).json({ error }));
+      console.log("requête: authentifié avec auth",req.auth)
   };
 
 
