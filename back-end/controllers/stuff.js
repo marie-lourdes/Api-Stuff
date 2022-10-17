@@ -3,21 +3,32 @@ const Thing = require("../models/thing");
 //............... fonctions semantiques des logiques metier de l objet router rendu accessibles au module stuff.js de router..........
 
 // function semantique de la logique routing router.post("/") 
-exports.createThing = (req, res, next) => {
+
   exports.createThing = (req, res, next) => {
     const thingObject = JSON.parse(req.body.thing);// convertit l objet body "thing" (ajouté par multer)qui est une chaine json en objet javascript
     delete thingObject._id;
-    delete thingObject._userId;
+    delete thingObject._userId;// par securité nous supprimons l userid de la requete et le remplacons par l'user id de la propriété AUTH que nous avons rajouté
     const thing = new Thing({ // on crée une instance  du model Thing stocké dans la variable thing
         ...thingObject,
         userId: req.auth.userId,
+        // on recupere le userId de la propriété auth que nous avons rajouté lors de l authentication dans le middleware auth.js
+        //cela evite qu un client inscrive le userId dans notre utilisateur 
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        // on recupere les propriété de l objet requete protocol, host, l objet file crée par multer
     });
-  
-    thing.save()
+     // save() envoie un promesse, sur ce resultat de la promesse denregistrement de l 'objet  avec then():
+      //on envoie la reponse avec le status 201 et le msg en json
+      //on recupere l erreur et on envoie le status erreur 400 avec la reponse de la requete et le message d erreur de catch en objet json
+    
+    // on enregistre l'instance de modele thing dans la base de données, une premier fois, transformé par mongoDB avec le nom de model au pluriel et minuscule pour le nom de la collection de mongodb si elle n existe pas deja
+    //et on enregistre le shema structuré qui est copié par la methode model()a chaque appel de celle -ci,qui est inseré dans le model nommé "Thing" avec les données  avec la methode save() de mongoose
+      thing.save()
     .then(() => { res.status(201).json({message: 'Objet enregistré !'})})
     .catch(error => { res.status(400).json( { error })})
- };
+    // est le raccourci de.json( {error:error}):error module separé  de l objet error
+  };
+
+
    
       
       // "spread ... " operateur js qui copie et colle tous les elements  du body de la requete post utilisateur dans l'instance du model thing
@@ -31,17 +42,6 @@ exports.createThing = (req, res, next) => {
     price: req.body.price,
     userId: req.body.userId*/
    
-  
-
-    // on enregistre l'instance de modele thing dans la base de données, une premier fois, transformé par mongoDB avec le nom de model au pluriel et minuscule pour le nom de la collection de mongodb si elle n existe pas deja
-    //et on enregistre le shema structuré qui est copié par la methode model()a chaque appel de celle -ci,qui est inseré dans le model nommé "Thing" avec les données  avec la methode save() de mongoose
-    thing.save()
-      .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-      // save() envoie un promesse, sur ce resultat de la promesse denregistrement de l 'objet  avec then():
-      //on envoie la reponse avec le status 201 et le msg en json
-      //on recupere l erreur et on envoie le status erreur 400 avec la reponse de la requete et le message d erreur de catch en objet json
-      .catch(error => res.status(400).json({ error })); // est le raccourci de.json( {error:error}):error module separé  de l objet error
-  };
 
   // function semantique de la logique routing router.put("/:id")
   exports.modifyThing= (req, res, next) => {
