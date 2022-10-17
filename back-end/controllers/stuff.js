@@ -4,9 +4,22 @@ const Thing = require("../models/thing");
 
 // function semantique de la logique routing router.post("/") 
 exports.createThing = (req, res, next) => {
-    delete req.body._id;// on efface au preable l id generé par le front-end car la base de données mongo genere deja l id
-    const thing = new Thing({// on crée une instance  du model Thing stocké dans la variable thing
-      ...req.body
+  exports.createThing = (req, res, next) => {
+    const thingObject = JSON.parse(req.body.thing);// convertit l objet body "thing" (ajouté par multer)qui est une chaine json en objet javascript
+    delete thingObject._id;
+    delete thingObject._userId;
+    const thing = new Thing({ // on crée une instance  du model Thing stocké dans la variable thing
+        ...thingObject,
+        userId: req.auth.userId,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    });
+  
+    thing.save()
+    .then(() => { res.status(201).json({message: 'Objet enregistré !'})})
+    .catch(error => { res.status(400).json( { error })})
+ };
+   
+      
       // "spread ... " operateur js qui copie et colle tous les elements  du body de la requete post utilisateur dans l'instance du model thing
     // au lieu de title: req.body.title;
     //description: req.body.description
@@ -18,7 +31,7 @@ exports.createThing = (req, res, next) => {
     price: req.body.price,
     userId: req.body.userId*/
    
-    });
+  
 
     // on enregistre l'instance de modele thing dans la base de données, une premier fois, transformé par mongoDB avec le nom de model au pluriel et minuscule pour le nom de la collection de mongodb si elle n existe pas deja
     //et on enregistre le shema structuré qui est copié par la methode model()a chaque appel de celle -ci,qui est inseré dans le model nommé "Thing" avec les données  avec la methode save() de mongoose
