@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
  
 module.exports = (req, res, next) => {
-   try {
+   try{
        const token = req.headers.authorization.split(' ')[1];// recupere la valeur du token dans le header authorization envoyé dans la requete de l utilisateur
        // verify() decode le token à l aide de la chaine secrete(algorithm de cryptage), envoit un objet de decodage , si il n a pas ete decodé, la valeur de l objet de decodage sera "undefined"
        const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
            userId: userId
        };
 	next();
-   } catch(error) {
+   }catch(error) {
        res.status(401).json({ error });
    }
 };
