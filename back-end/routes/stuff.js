@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router(); 
 const auth= require("../middleware/auth");
+const upload = require("../middleware/config-multer.js");
 const stuffctrler= require("../controllers/stuff")
 
 // import du module thing.js contenant la valeur actuelle du model avec  la valeur de thingshema 
@@ -11,7 +12,7 @@ const stuffctrler= require("../controllers/stuff")
 
   //.......................................... creation d un objet/ajout d un produit...............................
   // ajout de la fonction semantique (logique metier de router dans le controller stuff.js) du controller stuff.js à la logique routing router.post("/")
-  router.post( '/',auth,stuffctrler.createThing );
+  router.post( '/',auth,upload,stuffctrler.createThing );
 
  //...................................modification d'un produit avec son id......................................
  // ajout de la fonction semantique (logique metier de router dans le controller stuff.js) du controller stuff.js à la logique routing router.put("/:id")

@@ -6,10 +6,10 @@ const MIME_TYPES = { // definition des valeurs extension pour la propriété mim
   'image/png': 'png'
 };
 
-// objet de configuration stoké la variable storage avec l option de multer nommé storage
+// objet de configuration stoké dans la variable storage avec l option de multer nommé storage
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, 'images');// on indique qu il n y a aucune erreur a ce niveau
+    callback(null, 'images');// on indique qu il n y a aucune erreur a ce niveau et où stoker l image
   },
   filename: (req, file, callback) => {
     const name = file.originalname.split(' ').join('_');// nous ajoutons des underscore au nom du fichier pour eviter des erreurs lors de l enregistremnt du fichier par le serveur
