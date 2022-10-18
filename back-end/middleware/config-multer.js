@@ -21,3 +21,5 @@ const storage = multer.diskStorage({
 
 module.exports = multer({storage: storage}).single('image'); //ou multer({storage})
 // accepte un seul fichier avec du nom du fielname (nom de champs type file), multer saura dans quel champs du formulaire il doit stocké l image telechargé <input type=file name="fieldname">
+
+console.log(__dirname)
