@@ -35,6 +35,8 @@ app.use("/api/stuff", routerStuff);
 // ajout de l objet router (avec ses routes individuelles et requetes http traites par leur middleware respectif: fonction semantique controllers)
 //chaque route individuelle de l objet router "routerUsers" s ajoutent à la route de base d'authentification "/api/auth" ,cette route de base est ajouté au niveau de l application  par la fonction use,  acceptant toutes les requetes http dans l objet router
 app.use("/api/auth", routerUsers);
+// creation de la route image et ajout du middleware express.static qui va chercher les fichier statiques dans le dossier images a chaque requête sur la route "/image"
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 /* module.exports exporte et rend accessible  la valeur actuelle de l'objet exports(du module app.js) 
 qui sont les fonctions et methodes de l'application express contenu  dans la variable  const app */

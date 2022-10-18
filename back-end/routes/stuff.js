@@ -12,11 +12,11 @@ const stuffctrler= require("../controllers/stuff")
 
   //.......................................... creation d un objet/ajout d un produit...............................
   // ajout de la fonction semantique (logique metier de router dans le controller stuff.js) du controller stuff.js à la logique routing router.post("/")
-  router.post( '/',auth,upload,stuffctrler.createThing );
+  router.post( '/',auth, upload, stuffctrler.createThing );
 
  //...................................modification d'un produit avec son id......................................
  // ajout de la fonction semantique (logique metier de router dans le controller stuff.js) du controller stuff.js à la logique routing router.put("/:id")
- router.put( '/:id',auth, stuffctrler.modifyThing );
+ router.put( '/:id',auth, upload, stuffctrler.modifyThing );
 
 //......................................suppression d'un produit......................................................
 // ajout de la fonction semantique (logique metier de router dans le controller stuff.js) du controller stuff.js à la logique routing router.delete("/:id")
