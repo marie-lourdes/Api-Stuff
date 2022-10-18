@@ -45,11 +45,34 @@ const Thing = require("../models/thing");
 
   // function semantique de la logique routing router.put("/:id")
   exports.modifyThing= (req, res, next) => {
-    // 1er argument, la condition pour modifier l element,
+    const thingObject = req.file ? { // operateur ternaire pour verifier si la requête de modification contient un body file dans la requete crée par multer
+      ...JSON.parse(req.body.thing),
+      // on parse l objet body  qui a été ajouté à la requête par multer, form data crée deux clé le thing et image file dans l objet body lors de la requête FRONT-END, multer ajoute tous les champs textuelle dans le l objet body, et les fichiers dans l objet file ou files s il y a plusiers fichier
+      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+      // on modifie l url de l image avec l objet file de multer et sa propriét filename de l ojet file
+  } : { ...req.body };// si il n y a pas de fichier, donc pas d objet file ajouté par multer , nous recuperons l objet body
+
+  delete thingObject._userId;// apr securité on enleve l userid ajouté à la requête de l utilisateur er recuperonc l userid du middleware d authentification
+  //cela nous permettra de verifier le userid de l autentification de la requete de modification avec celui enregistré avec l objet qui a crée
+  // celui qui a crée l objet uniquement peut modifier l objet et pas un atre utilisateur qui ne la pas crée et n en ai pas propriétaire
+  Thing.findOne({_id: req.params.id})
+      .then((thing) => {
+          if (thing.userId != req.auth.userId) {
+            // on verifie dans la base de données  que l objet avec l id du parametre de recherche  comprte le meme userID enregistre 
+            //que le userid qui fait la requete de modification, en recuperant l userID que nous avons ajouté à la verification du token dans middleware auth.js
+              res.status(401).json({ message : 'Not authorized'});
+          } else {
+             // 1er argument, la condition pour modifier l element,
     // le 2 eme argument le contenu qui apporte la modification en s assurant de modifier le produit avec l id du parametre de requete dans l url du site
-    Thing.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-      .then(() => res.status(200).json({ message: 'Objet modifié !'}))
-      .catch(error => res.status(400).json({ error }));
+              Thing.updateOne({ _id: req.params.id}, { ...thingObject, _id: req.params.id})
+              .then(() => res.status(200).json({message : 'Objet modifié!'}))
+              .catch(error => res.status(401).json({ error }));
+          }
+      })
+      .catch((error) => {
+          res.status(400).json({ error });
+      });
+
   };
 
   // function semantique de la logique routing router.delete("/:id")
