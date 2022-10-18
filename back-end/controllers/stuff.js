@@ -80,9 +80,26 @@ const fs = require("fs");
 
   // function semantique de la logique routing router.delete("/:id")
   exports.deleteThing=  (req, res, next) => {
-    Thing.deleteOne({ _id: req.params.id })
-      .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
-      .catch(error => res.status(400).json({ error }));
+    Thing.findOne({ _id: req.params.id})// on recupere l opbjet avec une query de comparaison l id de l objet qui correspond  au parametre de recherche de la requete
+    .then(thing => {
+        if (thing.userId != req.auth.userId) {
+            res.status(401).json({message: 'Not authorized'});
+        } else {
+            const filename = thing.imageUrl.split('/images/')[1]; 
+           // dans l objet retourvé par l id du parametre de la requestIdleCallback, nous recuperons  imageUrl de l objet et le splitons pour recuperer le nom du fichier
+            fs.unlink(`images/${filename}`, () => { 
+            //la methode unlink() du module fs dissocie le fichier avec le nom du fichier recuperer dans l url , le supprime du dossier images du server node
+            // la methode unlink() est asynchrone avec la fonction callback en parametre, apres suppression du fichiser dans le server node, le callback supprime l objet de la base de donnée   
+            Thing.deleteOne({_id: req.params.id})// on s assure que l objet a supprime de la base de donné est ben celui qui correspond au produit affiché dans le front end via le parametre id de l url de la requete
+                    .then(() => { res.status(200).json({message: 'Objet supprimé !'})})
+                    .catch(error => res.status(401).json({ error })); //erreur coté client
+            });
+        }
+    })
+    .catch( error => {
+        res.status(500).json({ error });// erreur coté serveur
+    });
+   
   };
 
   const url = "https//lrkjfkrjti/image/photo.jpeg"
