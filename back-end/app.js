@@ -1,5 +1,7 @@
 const express = require("express");
 const mongoose= require("mongoose");
+//import du package path pour la manipulation du chemin du dossier image et les fichier statiques
+const path = require("path");
 // import des routes individuelles de l objet router (du module routes stuff.js) pour les stuff articles et les fonctions semantiques du controllers stuff.js (les middleswares qui traites les requetes de ses routes individuels)
 const routerStuff = require("./routes/stuff");
 // import des routes individuelles de l objet router(du module routes Users.js)  pour les donnees email et de passe utilisateur et  les fonctions semantiques du controllers Users.js (les middleswares qui traites les requetes de ses routes individuels)

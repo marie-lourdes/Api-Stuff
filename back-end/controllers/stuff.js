@@ -1,5 +1,8 @@
 const Thing = require("../models/thing"); 
 
+// import du package du module de base de node js appelé "fs", pas besoin de l installer il est integré a node.js
+const fs = require("fs");
+
 //............... fonctions semantiques des logiques metier de l objet router rendu accessibles au module stuff.js de router..........
 
 // function semantique de la logique routing router.post("/") 
@@ -81,6 +84,10 @@ const Thing = require("../models/thing");
       .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
       .catch(error => res.status(400).json({ error }));
   };
+
+  const url = "https//lrkjfkrjti/image/photo.jpeg"
+  const urlSplit=url.split("//");
+  console.log("url splité",urlSplit)
 
   // function semantique de la logique routing router.get("/:id") 
   exports.getOneThing= (req, res, next) => {
